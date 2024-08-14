@@ -3,18 +3,26 @@
 Containerize ASP.NET app with Docker and MongoDB CRUD (Create, Read, Update, and Delete)<br/>
 Using [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
-### Build the image and run it
+## Build the image and run in Docker container
 
-The container image is built with [Ubuntu Chiseled](https://devblogs.microsoft.com/dotnet/dotnet-6-is-now-in-ubuntu-2204/#net-in-chiseled-ubuntu-containers), with [Dockerfile](Dockerfile.chiseled-composite)
+The ASP.NET container image is built with [Ubuntu Chiseled](https://devblogs.microsoft.com/dotnet/dotnet-6-is-now-in-ubuntu-2204/#net-in-chiseled-ubuntu-containers), with [Dockerfile](Dockerfile.chiseled-composite)
 
 ```console
 docker build -t aspnetapp-mongodb .
-docker run --rm -it -p 8000:8080 -e ASPNETCORE_HTTP_PORTS=8080 --name my-aspnetapp aspnetapp-mongodb
+docker-compose --env-file docker-compose-dev.env up -d
 ```
 
-The `--rm` option automatically removes the container and its associated anonymous volumes when it exits
-
 Navigate to http://localhost:8000
+
+## Run and debug the app locally
+
+Navigate to the project folder [aspnetapp](aspnetapp)
+
+```console
+dotnet run
+```
+Navigate to http://localhost:5121<br/>
+Press `Ctrl+C` at the command prompt to stop the app
 
 ## Notes
 
