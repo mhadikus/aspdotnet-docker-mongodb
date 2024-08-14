@@ -3,8 +3,8 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
 builder.Services.AddHealthChecks();
+builder.Services.AddControllersWithViews();
 
 // builder.Services.ConfigureHttpJsonOptions(options =>
 // {
@@ -13,6 +13,7 @@ builder.Services.AddHealthChecks();
 
 // Adds the Endpoint API Explorer service to the project
 builder.Services.AddEndpointsApiExplorer();
+
 // Adds Swagger generation service to the project
 // It will use API Explorer to generate the OpenAPI schema file
 builder.Services.AddSwaggerGen();
@@ -24,13 +25,14 @@ app.MapHealthChecks("/healthz");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 // Enables swagger generation middleware
 app.UseSwagger();
+
 // Enables swagger UI
 app.UseSwaggerUI();
 
@@ -41,7 +43,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 CancellationTokenSource cancellation = new();
 app.Lifetime.ApplicationStopping.Register( () =>

@@ -1,10 +1,8 @@
-﻿@page
-@model IndexModel
-@using System.Runtime.InteropServices
+﻿@using System.Runtime.InteropServices
 @using System.IO
 @using System.Diagnostics
 @{
-    ViewData["Title"] = "Welcome to .NET";
+    ViewData["Title"] = "System Info";
     string hostName = System.Net.Dns.GetHostName();
     var ipList = await System.Net.Dns.GetHostAddressesAsync(hostName);
     EnvironmentInfo env = new();
@@ -13,7 +11,7 @@
 }
 
 <div class="text-center">
-    <h1>Welcome to .NET</h1>
+    <h1>System Information</h1>
 </div>
 
 <div align="center">
