@@ -38,73 +38,40 @@ namespace aspnetapp.Models.Mongo
 
         private static string GetHostName()
         {
-            var host = Environment.GetEnvironmentVariable("MONGODB_HOST");
-            if (!string.IsNullOrEmpty(host))
-            {
-                Console.WriteLine($"info: Reading MongoDB host name from env: {host}");
-            }
-            else
-            {
-                Console.WriteLine($"warn: Unable to read MongoDB host name from env");
-            }
-            return host ?? "localhost";
+            return GetEnvironmentVariable("MONGODB_HOST", "localhost");
         }
 
         private static int GetPort()
         {
-            int port = 27017;
-            var portString = Environment.GetEnvironmentVariable("MONGODB_PORT");
-            if (!string.IsNullOrEmpty(portString))
-            {
-                _ = int.TryParse(portString, out port);
-
-                Console.WriteLine($"info: Reading MongoDB port from env: {portString}");
-            }
-            else
-            {
-                Console.WriteLine($"warn: Unable to read MongoDB port from env");
-            }
+            var portString = GetEnvironmentVariable("MONGODB_PORT", "27017");
+            _ = int.TryParse(portString, out int port);
             return port;
         }
 
         private static (string, string) GetCredentials()
         {
-            var user = Environment.GetEnvironmentVariable("MONGODB_USER");
-            if (!string.IsNullOrEmpty(user))
-            {
-                Console.WriteLine($"info: Reading MongoDB user name from env: {user}");
-            }
-            else
-            {
-                user = "mongodb-dev";
-                Console.WriteLine($"warn: Unable to read MongoDB user name from env");
-            }
-
-            var pwd = Environment.GetEnvironmentVariable("MONGODB_PW");
-            if (!string.IsNullOrEmpty(pwd))
-            {
-                Console.WriteLine($"info: Reading MongoDB credential from env");
-            }
-            else
-            {
-                pwd = "mongodb-dev";
-                Console.WriteLine($"warn: Unable to read MongoDB credential from env");
-            }
+            var user = GetEnvironmentVariable("MONGODB_USER", "mongodb-dev");
+            var pwd = GetEnvironmentVariable("MONGODB_PW", "mongodb-dev");
             return (user, pwd);
         }
 
         private static string GetDatabaseName()
         {
-            var database = Environment.GetEnvironmentVariable("MONGODB_INIT_DATABASE");
-            if (!string.IsNullOrEmpty(database))
+            return GetEnvironmentVariable("MONGODB_INIT_DATABASE", "my_data");
+        }
+
+        private static string GetEnvironmentVariable(string variable, string defaultValue)
+        {
+            var value = Environment.GetEnvironmentVariable(variable);
+            if (!string.IsNullOrEmpty(value))
             {
-                Console.WriteLine($"info: Reading MongoDB database name from env: {database}");
+                Console.WriteLine($"info: Reading {variable} from env: {value}");
             }
             else
             {
-                Console.WriteLine($"warn: Unable to read MongoDB database name from env");
+                Console.WriteLine($"warn: Unable to read {variable} from env");
             }
-            return database ?? "my_data";
+            return value ?? defaultValue;
         }
     }
 }
