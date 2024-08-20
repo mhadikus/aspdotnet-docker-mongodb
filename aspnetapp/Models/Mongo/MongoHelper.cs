@@ -1,15 +1,15 @@
 ﻿using MongoDB.Driver;
 
-namespace aspnetapp.Models
+namespace aspnetapp.Models.Mongo
 {
-    public static class MongoHelper
+    internal static class MongoHelper
     {
         private const string Host = "localhost";
         private const int Port = 27017;
         private const string User = "mongodb-dev";
         private const string Password = "mongodb-dev";
         private const string DatabaseName = "my_data";
-        private const string CollectionName = "my_wristwatches";
+        private const string CollectionName = "my_products";
 
         private static readonly Lazy<MongoClient> _client = new(GetClient);
 

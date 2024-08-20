@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace aspnetapp.Models
+namespace aspnetapp.Models.Mongo
 {
-    public class MongoWristwatch
+    internal class Product
     {
         [BsonId]
         public ObjectId Id { get; set; }

@@ -1,31 +1,31 @@
-﻿using aspnetapp.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using System.Net;
+using MongoProduct = aspnetapp.Models.Mongo.Product;
 
 namespace aspnetapp.Controllers.API.Collection
 {
     [ApiController]
-    [Route("api/collection/wristwatches")]
+    [Route("api/collection/products")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class WristwatchController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        private readonly IMongoCollection<MongoWristwatch> _wristwatches;
+        private readonly IMongoCollection<MongoProduct> _products;
 
-        public WristwatchController()
+        public ProductController()
         {
-            _wristwatches = MongoHelper.GetCollection<MongoWristwatch>();
+            _products = Models.Mongo.MongoHelper.GetCollection<MongoProduct>();
         }
 
         [HttpGet]
-        public IEnumerable<Wristwatch> Get()
+        public IEnumerable<Product> Get()
         {
-            foreach( var wristwatch in _wristwatches.AsQueryable())
+            foreach( var product in _products.AsQueryable())
             {
-                yield return new Wristwatch()
+                yield return new Product()
                 {
-                    Brand = wristwatch.Brand,
-                    Model = wristwatch.Model
+                    Brand = product.Brand,
+                    Model = product.Model
                 };
             }
         }
@@ -33,27 +33,27 @@ namespace aspnetapp.Controllers.API.Collection
         [HttpGet("count")]
         public int GetCount()
         {
-            var count = _wristwatches
+            var count = _products
                 .AsQueryable()
                 .Count();
             return count;
         }
 
         [HttpPost("insert")]
-        public HttpResponseMessage Insert([FromBody] Wristwatch wristwatch)
+        public HttpResponseMessage Insert([FromBody] Product product)
         {
             HttpStatusCode statusCode;
             string message;
 
             try
             {
-                _wristwatches.InsertOne(new MongoWristwatch()
+                _products.InsertOne(new MongoProduct()
                 {
-                    Brand = wristwatch.Brand,
-                    Model = wristwatch.Model
+                    Brand = product.Brand,
+                    Model = product.Model
                 });
                 statusCode = HttpStatusCode.Created;
-                message = $"Added {wristwatch.Brand} {wristwatch.Model}";
+                message = $"Added {product.Brand} {product.Model}";
             }
             catch (HttpRequestException exception)
             {
@@ -76,7 +76,7 @@ namespace aspnetapp.Controllers.API.Collection
         }
     }
 
-    public class Wristwatch
+    public class Product
     {
         public required string Brand { get; set; }
 
