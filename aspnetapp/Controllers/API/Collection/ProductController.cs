@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using System.Net;
+using MongoHelper = aspnetapp.Models.Mongo.MongoHelper;
 using MongoProduct = aspnetapp.Models.Mongo.Product;
 
 namespace aspnetapp.Controllers.API.Collection
@@ -8,19 +9,24 @@ namespace aspnetapp.Controllers.API.Collection
     [ApiController]
     [Route("api/collection/products")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class ProductController : ControllerBase
+    public class ProductController(ILogger<ProductController> logger) : ControllerBase
     {
-        private readonly IMongoCollection<MongoProduct> _products;
+        private readonly MongoHelper _mongoHelper = new(logger);
+        
+        private IMongoCollection<MongoProduct>? _products;
 
-        public ProductController()
+        private IMongoCollection<MongoProduct> Products
         {
-            _products = Models.Mongo.MongoHelper.GetCollection<MongoProduct>();
+            get
+            {
+                return _products ??= _mongoHelper.GetCollection<MongoProduct>();
+            }
         }
 
         [HttpGet]
         public IEnumerable<Product> Get()
         {
-            foreach( var product in _products.AsQueryable())
+            foreach( var product in Products.AsQueryable())
             {
                 yield return new Product()
                 {
@@ -33,7 +39,7 @@ namespace aspnetapp.Controllers.API.Collection
         [HttpGet("count")]
         public int GetCount()
         {
-            var count = _products
+            var count = Products
                 .AsQueryable()
                 .Count();
             return count;
@@ -47,7 +53,7 @@ namespace aspnetapp.Controllers.API.Collection
 
             try
             {
-                _products.InsertOne(new MongoProduct()
+                Products.InsertOne(new MongoProduct()
                 {
                     Brand = product.Brand,
                     Model = product.Model

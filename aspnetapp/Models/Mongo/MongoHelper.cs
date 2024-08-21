@@ -2,74 +2,83 @@
 
 namespace aspnetapp.Models.Mongo
 {
-    internal static class MongoHelper
+    internal class MongoHelper
     {
         private const string CollectionName = "my_products";
 
-        private static readonly Lazy<string> _hostName = new(GetHostName);
-        private static readonly Lazy<int> _port = new(GetPort);
-        private static readonly Lazy<(string, string)> _credentials = new(GetCredentials);
-        private static readonly Lazy<string> _databaseName = new(GetDatabaseName);
-        private static readonly Lazy<MongoClient> _client = new(GetClient);
+        private readonly string _hostName;
+        private readonly int _port;
+        private readonly (string, string) _credentials;
+        private readonly string _databaseName;
+        private readonly MongoClient _client;
+        private readonly ILogger _logger;
 
-        public static MongoClient Client => _client.Value;
+        public MongoHelper(ILogger logger)
+        {
+            _logger = logger;
+            _hostName = GetHostName();
+            _port = GetPort();
+            _credentials = GetCredentials();
+            _databaseName = GetDatabaseName();
+            _client = CreateMongoClient();
+        }
 
-        private static MongoClient GetClient()
+        public IMongoCollection<T> GetCollection<T>()
+        {
+            var database = _client.GetDatabase(_databaseName);
+            var collection = database.GetCollection<T>(CollectionName);
+            return collection;
+        }
+
+        private MongoClient CreateMongoClient()
         {
             var settings = new MongoClientSettings
             {
-                Server = new MongoServerAddress(_hostName.Value, _port.Value),
+                Server = new MongoServerAddress(_hostName, _port),
                 Credential = MongoCredential.CreateCredential(
-                    _databaseName.Value,
-                    _credentials.Value.Item1,
-                    _credentials.Value.Item2),
+                    _databaseName,
+                    _credentials.Item1,
+                    _credentials.Item2),
             };
             var client = new MongoClient(settings);
             // var client = new MongoClient("mongodb://mongodb-dev:mongodb-dev@localhost:27017");
             return client;
         }
 
-        public static IMongoCollection<T> GetCollection<T>()
-        {
-            var database = Client.GetDatabase(_databaseName.Value);
-            var collection = database.GetCollection<T>(CollectionName);
-            return collection;
-        }
-
-        private static string GetHostName()
+        private string GetHostName()
         {
             return GetEnvironmentVariable("MONGODB_HOST", "localhost");
         }
 
-        private static int GetPort()
+        private int GetPort()
         {
             var portString = GetEnvironmentVariable("MONGODB_PORT", "27017");
             _ = int.TryParse(portString, out int port);
             return port;
         }
 
-        private static (string, string) GetCredentials()
+        private (string, string) GetCredentials()
         {
             var user = GetEnvironmentVariable("MONGODB_USER", "mongodb-dev");
             var pwd = GetEnvironmentVariable("MONGODB_PW", "mongodb-dev");
             return (user, pwd);
         }
 
-        private static string GetDatabaseName()
+        private string GetDatabaseName()
         {
             return GetEnvironmentVariable("MONGODB_INIT_DATABASE", "my_data");
         }
 
-        private static string GetEnvironmentVariable(string variable, string defaultValue)
+        private string GetEnvironmentVariable(string variable, string defaultValue)
         {
             var value = Environment.GetEnvironmentVariable(variable);
             if (!string.IsNullOrEmpty(value))
             {
-                Console.WriteLine($"info: Reading {variable} from env: {value}");
+                _logger.LogInformation("Reading {Variable} from env: {Value}", variable, value);
             }
             else
             {
-                Console.WriteLine($"warn: Unable to read {variable} from env");
+                _logger.LogWarning("Unable to read {Variable} from env", variable);
             }
             return value ?? defaultValue;
         }
