@@ -13,9 +13,11 @@ namespace aspnetapp.Models.Mongo
         private readonly MongoClient _client;
         private readonly ILogger _logger;
 
-        public MongoHelper(ILogger logger)
+        public MongoHelper()
         {
-            _logger = logger;
+            using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
+            _logger = factory.CreateLogger<MongoHelper>();
+
             _hostName = GetHostName();
             _port = GetPort();
             _credentials = GetCredentials();

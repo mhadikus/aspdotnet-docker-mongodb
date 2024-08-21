@@ -11,22 +11,16 @@ namespace aspnetapp.Controllers.API.Collection
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ProductController(ILogger<ProductController> logger) : ControllerBase
     {
-        private readonly MongoHelper _mongoHelper = new(logger);
-        
-        private IMongoCollection<MongoProduct>? _products;
+        private readonly ILogger<ProductController> _logger = logger;
 
-        private IMongoCollection<MongoProduct> Products
-        {
-            get
-            {
-                return _products ??= _mongoHelper.GetCollection<MongoProduct>();
-            }
-        }
+        private static readonly MongoHelper _mongoHelper = new();
+
+        private static readonly IMongoCollection<MongoProduct> _products = _mongoHelper.GetCollection<MongoProduct>();
 
         [HttpGet]
         public IEnumerable<Product> Get()
         {
-            foreach( var product in Products.AsQueryable())
+            foreach( var product in _products.AsQueryable())
             {
                 yield return new Product()
                 {
@@ -39,7 +33,7 @@ namespace aspnetapp.Controllers.API.Collection
         [HttpGet("count")]
         public int GetCount()
         {
-            var count = Products
+            var count = _products
                 .AsQueryable()
                 .Count();
             return count;
@@ -53,7 +47,7 @@ namespace aspnetapp.Controllers.API.Collection
 
             try
             {
-                Products.InsertOne(new MongoProduct()
+                _products.InsertOne(new MongoProduct()
                 {
                     Brand = product.Brand,
                     Model = product.Model
