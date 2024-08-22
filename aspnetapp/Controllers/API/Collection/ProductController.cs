@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using System.Net;
+using MongoDB.Driver;
 using MongoHelper = aspnetapp.Models.Mongo.MongoHelper;
 using MongoProduct = aspnetapp.Models.Mongo.Product;
 

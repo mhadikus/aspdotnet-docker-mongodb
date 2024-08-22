@@ -1,6 +1,7 @@
-﻿﻿using aspnetapp.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using aspnetapp.Models;
+using aspnetapp.Models.Mongo;
 
 namespace aspnetapp.Controllers
 {
@@ -10,12 +11,12 @@ namespace aspnetapp.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("Index", new ProductCollection());
         }
 
         public IActionResult Welcome()
         {
-            return View("Index");
+            return View();
         }
 
         public IActionResult About()

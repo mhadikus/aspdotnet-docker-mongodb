@@ -1,8 +1,13 @@
 ﻿﻿@{
-    ViewData["Title"] = "My ASP.NET application";
+    ViewBag.Title = "My Product Collection";
 }
 
-<div class="text-left">
-    <h1 class="display-4">Welcome to My ASP.NET application</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core" target="_blank">building Web apps with ASP.NET Core</a></p>
-</div>
+<h2>@ViewBag.Title</h2>
+
+@{
+    var productCount = @Model.Count();
+}
+
+<p>
+    There are @productCount products in the database.
+</p>
