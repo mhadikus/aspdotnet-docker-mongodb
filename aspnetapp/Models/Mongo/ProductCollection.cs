@@ -9,7 +9,7 @@ namespace aspnetapp.Models.Mongo
 
         private static readonly Lazy<IMongoCollection<Product>> _collection = new(_mongoHelper.Value.GetCollection<Product>());
 
-        public static IMongoQueryable<Product> Products => _collection.Value.AsQueryable<Product>();
+        public IMongoQueryable<Product> Products => _collection.Value.AsQueryable<Product>();
 
         public int Count() { return Products.Count(); }
     }

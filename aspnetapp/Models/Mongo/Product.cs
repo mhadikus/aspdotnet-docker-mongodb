@@ -13,5 +13,11 @@ namespace aspnetapp.Models.Mongo
 
         [BsonElement]
         public required string Model { get; set; }
+
+        [BsonElement]
+        public required string ModelNumber { get; set; }
+
+        [BsonElement]
+        public required double Price { get; set; }
     }
 }

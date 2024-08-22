@@ -27,7 +27,9 @@ namespace aspnetapp.Controllers.API.Collection
                 yield return new Product()
                 {
                     Brand = product.Brand,
-                    Model = product.Model
+                    Model = product.Model,
+                    ModelNumber = product.ModelNumber,
+                    Price = product.Price,
                 };
             }
         }
@@ -52,7 +54,9 @@ namespace aspnetapp.Controllers.API.Collection
                 Products.InsertOne(new MongoProduct()
                 {
                     Brand = product.Brand,
-                    Model = product.Model
+                    Model = product.Model,
+                    ModelNumber = product.ModelNumber,
+                    Price = product.Price,
                 });
                 statusCode = HttpStatusCode.Created;
                 message = $"Added {product.Brand} {product.Model}";
@@ -83,5 +87,9 @@ namespace aspnetapp.Controllers.API.Collection
         public required string Brand { get; set; }
 
         public required string Model { get; set; }
+
+        public required string ModelNumber { get; set; }
+
+        public required double Price { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿﻿@{
+﻿@model aspnetapp.Models.Mongo.ProductCollection
+
+@{
     ViewBag.Title = "My Product Collection";
 }
 
@@ -11,3 +13,35 @@
 <p>
     There are @productCount products in the database.
 </p>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th></th>
+        <th>Brand</th>
+        <th>Model Name</th>
+        <th>Model #</th>
+        <th>Price</th>
+        <th>Purchase Date</th>
+        <th>Serial #</th>
+        <th>Warranty</th>
+        <th>Description</th>
+    </tr>
+    @{ var index = 1; }
+    @foreach(var product in @Model.Products)
+    {
+      <tr>
+          <td>@index</td>
+          <td>@product.Brand</td>
+          <td>@product.Model</td>
+          <td>@product.ModelNumber</td>
+          <td>
+                @{ var price = $"$ {product.Price.ToString("F")}"; }
+                @price
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        index++;
+    }
+</table>
