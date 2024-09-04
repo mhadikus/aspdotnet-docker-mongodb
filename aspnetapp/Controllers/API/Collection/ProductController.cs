@@ -48,7 +48,12 @@ namespace aspnetapp.Controllers.API.Collection
                     Brand = product.Brand,
                     Model = product.Model,
                     ModelNumber = product.ModelNumber,
+                    SerialNumber = product.SerialNumber,
                     Price = product.Price,
+                    PurchasePrice = product.PurchasePrice,
+                    PurchaseDate = product.PurchaseDate,
+                    Warranty = product.Warranty,
+                    Description = product.Description
                 });
                 statusCode = HttpStatusCode.Created;
                 message = $"Added {product.Brand} {product.Model}";

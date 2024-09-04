@@ -18,12 +18,12 @@
     <tr>
         <th></th>
         <th>Brand</th>
-        <th>Model Name</th>
+        <th>Model</th>
         <th>Model #</th>
         <th>Price</th>
         <th>Purchase Date</th>
         <th>Serial #</th>
-        <th>Warranty</th>
+        <th>Warranty (Yrs)</th>
         <th>Description</th>
     </tr>
     @{ var index = 1; }
@@ -35,12 +35,30 @@
           <td>@product.Model</td>
           <td>@product.ModelNumber</td>
           <td>
-                @{ var price = $"$ {product.Price.ToString("F")}"; }
+                @{
+                    var retailPrice = product.Price != 0 ? product.Price.ToString("F") : string.Empty;
+                    var purchasePrice = product.PurchasePrice != 0 ? product.PurchasePrice.ToString("F") : string.Empty;
+                    var price = string.Empty;
+                    if (!string.IsNullOrEmpty(retailPrice) && !string.IsNullOrEmpty(purchasePrice))
+                        price = $"${retailPrice}/${purchasePrice}";
+                    else if (!string.IsNullOrEmpty(retailPrice))
+                        price = $"${retailPrice}";
+                    else if (!string.IsNullOrEmpty(purchasePrice))
+                        price = $"${purchasePrice}";
+                }
                 @price
           </td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>
+                @{
+                    var purchaseDate = product.PurchaseDate.HasValue
+                        ? product.PurchaseDate.Value.ToString("d")
+                        : string.Empty;
+                }
+            @purchaseDate
+          </td>
+          <td>@product.SerialNumber</td>
+          <td>@product.Warranty</td>
+          <td>@product.Description</td>
         </tr>
         index++;
     }
