@@ -7,5 +7,18 @@ namespace aspnetapp.Models.Mongo
     {
         [BsonId]
         public ObjectId Id { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SetsRequiredMembersAttribute]
+        public MongoProduct(Product product)
+            : base(product.Brand, product.Model)
+        {
+            ModelNumber = product.ModelNumber;
+            SerialNumber = product.SerialNumber;
+            Price = product.Price;
+            PurchasePrice = product.PurchasePrice;
+            PurchaseDate = product.PurchaseDate?.ToUniversalTime();
+            Warranty = product.Warranty;
+            Description = product.Description;
+        }
     }
 }

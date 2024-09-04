@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using aspnetapp.Models;
 using aspnetapp.Models.Mongo;
 using MongoDB.Driver;
 
@@ -44,18 +43,7 @@ namespace aspnetapp.Controllers.API.Collection
             try
             {
                 var purchaseDate = product.PurchaseDate?.ToUniversalTime();
-                Products.InsertOne(new MongoProduct()
-                {
-                    Brand = product.Brand,
-                    Model = product.Model,
-                    ModelNumber = product.ModelNumber,
-                    SerialNumber = product.SerialNumber,
-                    Price = product.Price,
-                    PurchasePrice = product.PurchasePrice,
-                    PurchaseDate = purchaseDate,
-                    Warranty = product.Warranty,
-                    Description = product.Description
-                });
+                Products.InsertOne(new MongoProduct(product));
                 statusCode = HttpStatusCode.Created;
                 message = $"Added {product.Brand} {product.Model}";
             }
