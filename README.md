@@ -14,6 +14,8 @@ docker-compose --env-file docker-compose-dev.env up -d
 
 Navigate to http://localhost:8000
 
+![image](Products.png)
+
 ## Run and debug the app locally
 
 Navigate to the project folder [aspnetapp](aspnetapp)
