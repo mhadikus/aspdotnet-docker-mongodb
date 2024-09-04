@@ -20,7 +20,7 @@
         <th>Brand</th>
         <th>Model</th>
         <th>Model #</th>
-        <th>Price</th>
+        <th>Price (Retail/Purchase)</th>
         <th>Purchase Date</th>
         <th>Serial #</th>
         <th>Warranty (Yrs)</th>
@@ -51,7 +51,7 @@
           <td>
                 @{
                     var purchaseDate = product.PurchaseDate.HasValue
-                        ? product.PurchaseDate.Value.ToString("d")
+                        ? product.PurchaseDate.Value.ToLocalTime().ToString("d")
                         : string.Empty;
                 }
             @purchaseDate

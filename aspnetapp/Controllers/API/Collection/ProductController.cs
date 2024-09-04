@@ -43,6 +43,7 @@ namespace aspnetapp.Controllers.API.Collection
 
             try
             {
+                var purchaseDate = product.PurchaseDate?.ToUniversalTime();
                 Products.InsertOne(new MongoProduct()
                 {
                     Brand = product.Brand,
@@ -51,7 +52,7 @@ namespace aspnetapp.Controllers.API.Collection
                     SerialNumber = product.SerialNumber,
                     Price = product.Price,
                     PurchasePrice = product.PurchasePrice,
-                    PurchaseDate = product.PurchaseDate,
+                    PurchaseDate = purchaseDate,
                     Warranty = product.Warranty,
                     Description = product.Description
                 });
