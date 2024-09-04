@@ -5,9 +5,9 @@ namespace aspnetapp.Models.Mongo
 {
     internal class ProductCollection
     {
-        private static readonly Lazy<IMongoCollection<Product>> _collection = new(MongoHelper.GetCollection<Product>());
+        private static readonly Lazy<IMongoCollection<MongoProduct>> _collection = new(MongoHelper.GetCollection<MongoProduct>());
 
-        public IMongoQueryable<Product> Products => _collection.Value.AsQueryable<Product>();
+        public IMongoQueryable<MongoProduct> Products => _collection.Value.AsQueryable<MongoProduct>();
 
         public int Count() { return Products.Count(); }
     }

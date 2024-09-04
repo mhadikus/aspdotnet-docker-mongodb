@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using aspnetapp.Models;
+using aspnetapp.Models.Mongo;
 using MongoDB.Driver;
-using MongoHelper = aspnetapp.Models.Mongo.MongoHelper;
-using MongoProduct = aspnetapp.Models.Mongo.Product;
 
 namespace aspnetapp.Controllers.API.Collection
 {
@@ -22,13 +22,7 @@ namespace aspnetapp.Controllers.API.Collection
         {
             foreach( var product in Products.AsQueryable())
             {
-                yield return new Product()
-                {
-                    Brand = product.Brand,
-                    Model = product.Model,
-                    ModelNumber = product.ModelNumber,
-                    Price = product.Price,
-                };
+                yield return product;
             }
         }
 
@@ -78,16 +72,5 @@ namespace aspnetapp.Controllers.API.Collection
                 ReasonPhrase = message
             };
         }
-    }
-
-    public class Product
-    {
-        public required string Brand { get; set; }
-
-        public required string Model { get; set; }
-
-        public required string ModelNumber { get; set; }
-
-        public required double Price { get; set; }
     }
 }
