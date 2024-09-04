@@ -13,9 +13,7 @@ namespace aspnetapp.Controllers.API.Collection
     {
         private readonly ILogger<ProductController> _logger = logger;
 
-        private static readonly Lazy<MongoHelper> _mongoHelper = new(new MongoHelper());
-
-        private static readonly Lazy<IMongoCollection<MongoProduct>> _products = new(_mongoHelper.Value.GetCollection<MongoProduct>());
+        private static readonly Lazy<IMongoCollection<MongoProduct>> _products = new(MongoHelper.GetCollection<MongoProduct>());
 
         private static IMongoCollection<MongoProduct> Products => _products.Value;
 
