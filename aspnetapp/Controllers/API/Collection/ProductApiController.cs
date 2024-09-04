@@ -8,9 +8,9 @@ namespace aspnetapp.Controllers.API.Collection
     [ApiController]
     [Route("api/collection/products")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class ProductController(ILogger<ProductController> logger) : ControllerBase
+    public class ProductApiController(ILogger<ProductApiController> logger) : ControllerBase
     {
-        private readonly ILogger<ProductController> _logger = logger;
+        private readonly ILogger<ProductApiController> _logger = logger;
 
         private static readonly Lazy<IMongoCollection<MongoProduct>> _products = new(MongoHelper.GetCollection<MongoProduct>());
 
