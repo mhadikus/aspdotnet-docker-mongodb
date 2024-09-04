@@ -27,7 +27,7 @@
         <th>Description</th>
     </tr>
     @{ var index = 1; }
-    @foreach(var product in @Model.Products)
+    @foreach(var product in @Model.GetProducts())
     {
       <tr>
           <td>@index</td>

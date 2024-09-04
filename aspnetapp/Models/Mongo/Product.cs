@@ -3,13 +3,13 @@
 namespace aspnetapp.Models.Mongo
 {
     [method: System.Diagnostics.CodeAnalysis.SetsRequiredMembersAttribute]
-    public class Product(string brand, string model)
+    public class Product()
     {
         [BsonElement]
-        public required string Brand { get; set; } = brand;
+        public required string Brand { get; set; } = string.Empty;
 
         [BsonElement]
-        public required string Model { get; set; } = model;
+        public required string Model { get; set; } = string.Empty;
 
         [BsonElement]
         public string? ModelNumber { get; set; }

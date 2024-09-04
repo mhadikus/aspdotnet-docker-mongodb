@@ -11,7 +11,34 @@ namespace aspnetapp.Controllers
 
         public IActionResult Index()
         {
-            return View("Index", new ProductCollection());
+            return View(nameof(Index), new ProductCollection());
+        }
+
+        public IActionResult Insert()
+        {
+            return View(nameof(Insert), new Product());
+        }
+
+        [HttpPost]
+        public IActionResult Insert(Product product)
+        {
+            var collection = new ProductCollection();
+            try
+            {
+                collection.Insert(product);
+                ViewBag.Message = $"Successfully added {product.Brand} {product.Model}";
+            }
+            catch (HttpRequestException exception)
+            {
+                ViewBag.Message = "ERROR: " + exception.Message;
+            }
+
+            return View(product);
+        }
+
+        public IActionResult Find()
+        {
+            return View(nameof(Find), new ProductCollection());
         }
 
         public IActionResult Welcome()

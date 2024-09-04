@@ -1,0 +1,40 @@
+﻿@model aspnetapp.Models.Mongo.Product
+
+@{
+    ViewBag.Title = "Add Product";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<style>
+  input { width: 500px }
+  .error { color: red; }
+</style>
+
+<form asp-controller="Home" asp-action="Insert" method="post">
+  <table border="1" cellpadding="10">
+    <tr>
+        <td>Brand</td>
+        <td><input asp-for=@Model.Brand/></td>
+        <td><span asp-validation-for=@Model.Brand class="error"/></td>
+    </tr>
+    <tr>
+        <td>Model</td>
+        <td><input asp-for=@Model.Model/></td>
+        <td><span asp-validation-for=@Model.Model class="error"/></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <button type="submit">Submit</button>
+        </td>
+    </tr>
+  </table>
+  <!-- Scripts for enabling client side validation.-->
+  <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+  <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</form>
+
+<br>
+
+<p>@ViewBag.Message</p>

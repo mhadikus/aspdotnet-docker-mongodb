@@ -1,0 +1,17 @@
+﻿@model aspnetapp.Models.Mongo.ProductCollection
+
+@{
+    ViewBag.Title = "Find Product";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@{
+    var productCount = @Model.Count();
+}
+
+<p>
+    There are @productCount products in the database.
+
+    TODO: Implement product finder here
+</p>

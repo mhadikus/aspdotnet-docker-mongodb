@@ -10,8 +10,9 @@ namespace aspnetapp.Models.Mongo
 
         [System.Diagnostics.CodeAnalysis.SetsRequiredMembersAttribute]
         public MongoProduct(Product product)
-            : base(product.Brand, product.Model)
         {
+            Brand = product.Brand;
+            Model = product.Model;
             ModelNumber = product.ModelNumber;
             SerialNumber = product.SerialNumber;
             Price = product.Price;
