@@ -65,6 +65,8 @@ Model View Controller ([MVC](https://learn.microsoft.com/en-us/aspnet/core/tutor
 - Project requires [MongoDB.Driver](https://www.nuget.org/packages/MongoDB.Driver) NuGet package
 - Use swagger to view and execute Web APIs http://localhost:8000/swagger
 
+![image](Swagger.png)
+
 ## References
 
 - [Run an ASP.NET Core app in Docker containers](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-8.0)

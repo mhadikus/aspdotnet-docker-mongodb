@@ -21,5 +21,12 @@ namespace aspnetapp.Models.Mongo
             Warranty = product.Warranty;
             Description = product.Description;
         }
+
+        [System.Diagnostics.CodeAnalysis.SetsRequiredMembersAttribute]
+        public MongoProduct()
+        {
+            Brand = string.Empty;
+            Model = string.Empty;
+        }
     }
 }

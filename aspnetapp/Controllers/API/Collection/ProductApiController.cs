@@ -57,6 +57,48 @@ namespace aspnetapp.Controllers.API.Collection
             return response;
         }
 
+        [HttpPost("insert_with_params")]
+        public HttpResponseMessage InsertWithParams(
+            string brand,
+            string model,
+            string modelNumber,
+            string serialNumber,
+            double price,
+            double purchasePrice,
+            DateTime purchaseDate,
+            int warranty,
+            string description
+        )
+        {
+            HttpStatusCode statusCode;
+            string message;
+
+            try
+            {
+                Products.InsertOne(new MongoProduct()
+                {
+                    Brand = brand,
+                    Model = model,
+                    ModelNumber = modelNumber,
+                    SerialNumber = serialNumber,
+                    Price = price,
+                    PurchasePrice = purchasePrice,
+                    PurchaseDate = purchaseDate.ToUniversalTime(),
+                    Warranty = warranty,
+                    Description = description
+                });
+                statusCode = HttpStatusCode.Created;
+                message = $"Added {brand} {model}";
+            }
+            catch (HttpRequestException exception)
+            {
+                statusCode = exception.StatusCode ?? HttpStatusCode.BadRequest;
+                message = exception.Message;
+            }
+
+            var response = CreateResponse(statusCode, message);
+            return response;
+        }
 
         private static HttpResponseMessage CreateResponse(HttpStatusCode statusCode, string message)
         {
