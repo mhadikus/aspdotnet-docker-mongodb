@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using aspnetapp.Models;
 using aspnetapp.Models.Mongo;
 using MongoDB.Driver;
 
@@ -17,7 +18,7 @@ namespace aspnetapp.Controllers.API.Collection
         private static IMongoCollection<MongoProduct> Products => _products.Value;
 
         [HttpGet]
-        public IEnumerable<Product> Get()
+        public IEnumerable<IProduct> Get()
         {
             foreach( var product in Products.AsQueryable())
             {

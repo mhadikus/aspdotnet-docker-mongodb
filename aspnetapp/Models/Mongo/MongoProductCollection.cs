@@ -3,15 +3,15 @@ using MongoDB.Driver.Linq;
 
 namespace aspnetapp.Models.Mongo
 {
-    internal class ProductCollection
+    internal class MongoProductCollection
     {
         private static readonly Lazy<IMongoCollection<MongoProduct>> _collection = new(MongoHelper.GetCollection<MongoProduct>());
 
-        private static IMongoQueryable<MongoProduct> Products => _collection.Value.AsQueryable<MongoProduct>();
+        private static IMongoQueryable<MongoProduct> Products => _collection.Value.AsQueryable();
 
         private static IMongoCollection<MongoProduct> Collection => _collection.Value;
 
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<IProduct> GetProducts()
         {
             return Products;
         }

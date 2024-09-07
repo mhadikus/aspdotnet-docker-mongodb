@@ -11,7 +11,7 @@ namespace aspnetapp.Controllers
 
         public IActionResult Index()
         {
-            return View(new ProductCollection());
+            return View(new MongoProductCollection());
         }
 
         public IActionResult Insert()
@@ -22,7 +22,7 @@ namespace aspnetapp.Controllers
         [HttpPost]
         public IActionResult Insert(Product product)
         {
-            var collection = new ProductCollection();
+            var collection = new MongoProductCollection();
             try
             {
                 collection.Insert(product);
@@ -38,7 +38,7 @@ namespace aspnetapp.Controllers
 
         public IActionResult Find()
         {
-            return View(nameof(Find), new ProductCollection());
+            return View(nameof(Find), new MongoProductCollection());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
