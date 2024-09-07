@@ -62,13 +62,13 @@ namespace aspnetapp.Controllers.API.Collection
         public HttpResponseMessage InsertWithParams(
             string brand,
             string model,
-            string modelNumber,
-            string serialNumber,
-            double price,
-            double purchasePrice,
-            DateTime purchaseDate,
-            int warranty,
-            string description
+            string? modelNumber,
+            string? serialNumber,
+            double? price,
+            double? purchasePrice,
+            DateTime? purchaseDate,
+            int? warranty,
+            string? description
         )
         {
             HttpStatusCode statusCode;
@@ -82,9 +82,9 @@ namespace aspnetapp.Controllers.API.Collection
                     Model = model,
                     ModelNumber = modelNumber,
                     SerialNumber = serialNumber,
-                    Price = price,
-                    PurchasePrice = purchasePrice,
-                    PurchaseDate = purchaseDate.ToUniversalTime(),
+                    Price = price ?? 0,
+                    PurchasePrice = purchasePrice ?? 0,
+                    PurchaseDate = purchaseDate?.ToUniversalTime(),
                     Warranty = warranty,
                     Description = description
                 });

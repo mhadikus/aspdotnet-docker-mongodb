@@ -3,7 +3,7 @@ using MongoDB.Driver.Linq;
 
 namespace aspnetapp.Models.Mongo
 {
-    internal class MongoProductCollection
+    internal class MongoProductCollection : ProductCollection
     {
         private static readonly Lazy<IMongoCollection<MongoProduct>> _collection = new(MongoHelper.GetCollection<MongoProduct>());
 
@@ -11,14 +11,14 @@ namespace aspnetapp.Models.Mongo
 
         private static IMongoCollection<MongoProduct> Collection => _collection.Value;
 
-        public IEnumerable<IProduct> GetProducts()
+        public override IEnumerable<IProduct> GetProducts()
         {
             return Products;
         }
 
-        public int Count() { return Products.Count(); }
+        public override int Count() { return Products.Count(); }
 
-        public void Insert(Product product)
+        public override void Insert(IProduct product)
         {
             Collection.InsertOne(new MongoProduct(product));
         }
