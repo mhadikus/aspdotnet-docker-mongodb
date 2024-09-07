@@ -1,26 +1,19 @@
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
-
 namespace aspnetapp.Models.Mongo
 {
     internal class MongoProductCollection : ProductCollection
     {
-        private static readonly Lazy<IMongoCollection<MongoProduct>> _collection = new(MongoHelper.GetCollection<MongoProduct>());
-
-        private static IMongoQueryable<MongoProduct> Products => _collection.Value.AsQueryable();
-
-        private static IMongoCollection<MongoProduct> Collection => _collection.Value;
-
+        private readonly MongoHelper _database = new();
+        
         public override IEnumerable<IProduct> GetProducts()
         {
-            return Products;
+            return _database.GetProducts();
         }
 
-        public override int Count() { return Products.Count(); }
+        public override int Count() { return GetProducts().Count(); }
 
         public override void Insert(IProduct product)
         {
-            Collection.InsertOne(new MongoProduct(product));
+            _database.Insert(new MongoProduct(product));
         }
     }
 }

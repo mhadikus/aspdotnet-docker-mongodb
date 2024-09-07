@@ -2,7 +2,7 @@
 
 namespace aspnetapp.Models.Mongo
 {
-    internal static class MongoHelper
+    internal class MongoHelper : IDatabase
     {
         private const string CollectionName = "my_products";
 
@@ -12,6 +12,7 @@ namespace aspnetapp.Models.Mongo
         private static readonly Lazy<(string, string)> _credentials = new(GetCredentials);
         private static readonly Lazy<string> _databaseName = new(GetDatabaseName());
         private static readonly Lazy<MongoClient> _client = new(CreateMongoClient);
+        private static readonly Lazy<IMongoCollection<MongoProduct>> _productCollection = new(GetCollection<MongoProduct>);
 
         private static ILogger Logger => _logger.Value;
         private static string HostName => _hostName.Value;
@@ -19,8 +20,19 @@ namespace aspnetapp.Models.Mongo
         private static (string, string) Credentials => _credentials.Value;
         private static string DatabaseName => _databaseName.Value;
         private static MongoClient Client => _client.Value;
+        private static IMongoCollection<MongoProduct> ProductCollection => _productCollection.Value;
 
-        public static IMongoCollection<T> GetCollection<T>()
+        public IEnumerable<IProduct> GetProducts()
+        {
+            return ProductCollection.AsQueryable();
+        }
+
+        public void Insert(IProduct product)
+        {
+            ProductCollection.InsertOne(new MongoProduct(product));
+        }
+
+        private static IMongoCollection<T> GetCollection<T>()
         {
             var database = Client.GetDatabase(DatabaseName);
             var collection = database.GetCollection<T>(CollectionName);
