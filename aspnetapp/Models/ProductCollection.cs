@@ -1,11 +1,11 @@
 namespace aspnetapp.Models
 {
-    internal abstract class ProductCollection
+    internal class ProductCollection
     {
-        public abstract IEnumerable<IProduct> GetProducts();
+        public IEnumerable<IProduct> GetProducts() => DatabaseHelper.GetProducts();
 
-        public abstract int Count();
+        public int Count() => GetProducts().Count();
 
-        public abstract void Insert(IProduct product);
+        public void Insert(IProduct product) => DatabaseHelper.Insert(product);
     }
 }

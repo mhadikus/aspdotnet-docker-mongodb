@@ -1,7 +1,6 @@
 ﻿﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using aspnetapp.Models;
-using aspnetapp.Models.Mongo;
 
 namespace aspnetapp.Controllers
 {
@@ -11,7 +10,7 @@ namespace aspnetapp.Controllers
 
         public IActionResult Index()
         {
-            return View(new MongoProductCollection());
+            return View(new ProductCollection());
         }
 
         public IActionResult Insert()
@@ -22,7 +21,7 @@ namespace aspnetapp.Controllers
         [HttpPost]
         public IActionResult Insert(Product product)
         {
-            var collection = new MongoProductCollection();
+            var collection = new ProductCollection();
             try
             {
                 collection.Insert(product);
@@ -38,7 +37,7 @@ namespace aspnetapp.Controllers
 
         public IActionResult Find()
         {
-            return View(nameof(Find), new MongoProductCollection());
+            return View(nameof(Find), new ProductCollection());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
