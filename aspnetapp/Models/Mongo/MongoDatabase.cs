@@ -1,8 +1,11 @@
-﻿using MongoDB.Driver;
+﻿using System.ComponentModel.Composition;
+using MongoDB.Driver;
 
 namespace aspnetapp.Models.Mongo
 {
-    internal class MongoHelper : IDatabase
+    [Export(typeof(IDatabase))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
+    internal class MongoDatabase : IDatabase
     {
         private const string CollectionName = "my_products";
 
@@ -95,7 +98,7 @@ namespace aspnetapp.Models.Mongo
         private static ILogger CreateLogger()
         {
             using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
-            return factory.CreateLogger(typeof(MongoHelper));
+            return factory.CreateLogger(typeof(MongoDatabase));
         }
     }
 }

@@ -11,12 +11,10 @@ namespace aspnetapp.Controllers.API.Collection
     {
         private readonly ILogger<ProductApiController> _logger = logger;
 
-        private readonly Models.Mongo.MongoHelper _database = new();
-
         [HttpGet]
         public IEnumerable<IProduct> Get()
         {
-            foreach( var product in _database.GetProducts())
+            foreach( var product in DatabaseHelper.GetProducts())
             {
                 yield return product;
             }
@@ -25,7 +23,7 @@ namespace aspnetapp.Controllers.API.Collection
         [HttpGet("count")]
         public int GetCount()
         {
-            return _database.GetProducts().Count();
+            return DatabaseHelper.GetProducts().Count();
         }
 
         [HttpPost("insert")]
@@ -37,7 +35,7 @@ namespace aspnetapp.Controllers.API.Collection
             try
             {
                 var purchaseDate = product.PurchaseDate?.ToUniversalTime();
-                _database.Insert(product);
+                DatabaseHelper.Insert(product);
                 statusCode = HttpStatusCode.Created;
                 message = $"Added {product.Brand} {product.Model}";
             }
@@ -69,7 +67,7 @@ namespace aspnetapp.Controllers.API.Collection
 
             try
             {
-                _database.Insert(new Product()
+                DatabaseHelper.Insert(new Product()
                 {
                     Brand = brand,
                     Model = model,
