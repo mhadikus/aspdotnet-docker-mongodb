@@ -6,3 +6,8 @@ public interface IDatabase
 
     void Insert(IProduct product);
 }
+
+public interface IDatabaseData
+{
+    string Provider { get; }
+}

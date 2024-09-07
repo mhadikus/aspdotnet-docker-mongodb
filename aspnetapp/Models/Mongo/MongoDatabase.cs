@@ -3,8 +3,9 @@ using MongoDB.Driver;
 
 namespace aspnetapp.Models.Mongo
 {
-    [Export(typeof(IDatabase))]
     [PartCreationPolicy(CreationPolicy.Shared)]
+    [Export(typeof(IDatabase))]
+    [ExportMetadata(nameof(IDatabaseData.Provider), nameof(MongoDB))]
     internal class MongoDatabase : IDatabase
     {
         private const string CollectionName = "my_products";

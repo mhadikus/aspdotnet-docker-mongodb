@@ -29,7 +29,7 @@ namespace aspnetapp.Models
             private readonly CompositionContainer? _container;
 
             [Import(typeof(IDatabase))]
-            public Lazy<IDatabase>? DatabaseImpl { get; set; }
+            public Lazy<IDatabase, IDatabaseData>? DatabaseImpl { get; set; }
 
             public Database()
             {
@@ -46,16 +46,16 @@ namespace aspnetapp.Models
                 }
                 catch (Exception exception)
                 {
-                    _logger.LogError(exception.ToString());
+                    _logger.LogError("Composition Error: {Value}", exception.ToString());
                 }
 
                 if (DatabaseImpl != null)
                 {
-                    _logger.LogInformation($"Using {nameof(Database)}: {DatabaseImpl.Value.GetType()}");
+                    _logger.LogInformation("Using {Value} provider: {Value}", nameof(Database), DatabaseImpl.Metadata.Provider);
                 }
                 else
                 {
-                    _logger.LogWarning($"Unable to find MEF import for {nameof(IDatabase)}");
+                    _logger.LogWarning("Unable to find MEF import for {Value} provider", nameof(IDatabase));
                 }
             }
 
